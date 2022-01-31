@@ -22,8 +22,12 @@ function start () {
         forward = input.acceleration(Dimension.Y) * -1
         turn = input.acceleration(Dimension.X)
         updateStatus()
-        radio.sendValue("forward", forward)
-        radio.sendValue("turn", turn)
+        if (forward > sensitivity) {
+            radio.sendValue("forward", forward)
+        }
+        if (turn > sensitivity) {
+            radio.sendValue("turn", turn)
+        }
     }
 }
 function updateStatus () {
@@ -57,6 +61,7 @@ function updateStatus () {
 let turn = 0
 let forward = 0
 let running = 0
+let sensitivity = 0
 radio.setGroup(1)
-let threshold = 200
+sensitivity = 100
 music.setVolume(36)
