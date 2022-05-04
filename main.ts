@@ -9,15 +9,15 @@ function stop () {
     radio.sendValue("stop", 1)
 }
 input.onButtonPressed(Button.A, function () {
-    running = 1
+    running = true
     start()
 })
 input.onButtonPressed(Button.B, function () {
-    running = 0
+    running = false
     stop()
 })
 function start () {
-    while (running == 1) {
+    while (running) {
         music.playTone(262, music.beat(BeatFraction.Sixteenth))
         forward = input.acceleration(Dimension.Y) * -1
         turn = input.acceleration(Dimension.X)
@@ -60,8 +60,8 @@ function updateStatus () {
 }
 let turn = 0
 let forward = 0
-let running = 0
+let running = false
 let sensitivity = 0
-radio.setGroup(1)
+radio.setGroup(51)
 sensitivity = 200
 music.setVolume(24)
