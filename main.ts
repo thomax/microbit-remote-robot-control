@@ -1,4 +1,5 @@
 function stop () {
+    running = false
     basic.showLeds(`
         # . . . #
         . # . # .
@@ -9,26 +10,13 @@ function stop () {
     radio.sendValue("stop", 1)
 }
 input.onButtonPressed(Button.A, function () {
-    running = true
     start()
 })
 input.onButtonPressed(Button.B, function () {
-    running = false
     stop()
 })
 function start () {
-    while (running) {
-        music.playTone(262, music.beat(BeatFraction.Sixteenth))
-        forward = input.acceleration(Dimension.Y) * -1
-        turn = input.acceleration(Dimension.X)
-        updateStatus()
-        if (Math.abs(forward) > sensitivity) {
-            radio.sendValue("forward", forward)
-        }
-        if (Math.abs(turn) > sensitivity) {
-            radio.sendValue("turn", turn)
-        }
-    }
+    running = true
 }
 function updateStatus () {
     basic.clearScreen()
@@ -61,7 +49,18 @@ function updateStatus () {
 let turn = 0
 let forward = 0
 let running = false
-let sensitivity = 0
-radio.setGroup(51)
-sensitivity = 200
-music.setVolume(24)
+radio.setGroup(91)
+let sensitivity = 200
+basic.forever(function () {
+    if (running) {
+        forward = input.acceleration(Dimension.Y) * -1
+        turn = input.acceleration(Dimension.X)
+        updateStatus()
+        if (Math.abs(forward) > sensitivity) {
+            radio.sendValue("forward", forward)
+        }
+        if (Math.abs(turn) > sensitivity) {
+            radio.sendValue("turn", turn)
+        }
+    }
+})
