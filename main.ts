@@ -7,16 +7,19 @@ function stop () {
         . # . # .
         # . . . #
         `)
-    radio.sendValue("stop", 1)
+    radio.sendValue("running", 0)
 }
 input.onButtonPressed(Button.A, function () {
     start()
+    music.playMelody("C C5 - - - - - - ", 268)
 })
 input.onButtonPressed(Button.B, function () {
     stop()
+    music.playMelody("C5 C - - - - - - ", 268)
 })
 function start () {
     running = true
+    radio.sendValue("running", 1)
 }
 function updateStatus () {
     basic.clearScreen()
